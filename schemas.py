@@ -10,11 +10,11 @@ class User(UserBase):
     id: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 
 class UserCreate(UserBase):
-    pass
+    model_config = {"json_schema_extra": {"examples": [{"name": "Jimmie", "age": 42}]}}
 
 
 class PostBase(BaseModel):
@@ -24,7 +24,13 @@ class PostBase(BaseModel):
 
 
 class PostCreate(PostBase):
-    pass
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {"title": "New post title", "body": "New post body", "author_id": 1}
+            ]
+        }
+    }
 
 
 class PostResponse(PostBase):
@@ -32,4 +38,4 @@ class PostResponse(PostBase):
     author: User
 
     class Config:
-        orm_mode = True
+        from_attributes = True

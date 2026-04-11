@@ -41,13 +41,13 @@ async def create_post(post: PostCreate, db: Session = Depends(get_db)) -> PostRe
     db_post = Post(title=post.title, body=post.body, author_id=post.author_id)
     db.add(db_post)
     db.commit()
-    db.refresh(db_user)
+    db.refresh(db_post)
 
     return db_post
 
 
 @app.get("/posts/", response_model=List[PostResponse])
-async def posts(db: Session = Depends(get_db)) -> List[type[Post]]:
+async def posts(db: Session = Depends(get_db)) -> List[PostResponse]:
     return db.query(Post).all()
 
 
